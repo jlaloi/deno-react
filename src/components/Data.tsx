@@ -2,7 +2,7 @@ import { React } from "../dep.ts";
 
 export const Data = () => {
   const [data, setData] = React.useState<string[]>([]);
-  const [newData, setNewData] = React.useState<string>();
+  const [newData, setNewData] = React.useState<string>("");
 
   React.useEffect(() => {
     let cancel = false;
@@ -38,7 +38,7 @@ export const Data = () => {
 
   return <>
     <h2>Data</h2>
-    <ul>{data.map((d) => <li>{d}</li>)}</ul>
+    <ul>{data.map((d, index) => <li key={index}>{d}</li>)}</ul>
     <form onSubmit={handleSubmit}>
       <input
         type="text"
