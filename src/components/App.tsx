@@ -1,4 +1,4 @@
-import { React } from "../dep.ts";
+import { React } from "../depFront.ts";
 
 import { Counter } from "./Counter.tsx";
 

@@ -1,7 +1,5 @@
-import { Application, Router } from "https://deno.land/x/oak@v8.0.0/mod.ts";
-import * as Colors from "https://deno.land/std@0.102.0/fmt/colors.ts";
-
-import { React, ReactDOMServer } from "./dep.ts";
+import { Application, Colors, ReactDOMServer, Router } from "./depBack.ts";
+import { React } from "./depFront.ts";
 
 import { App } from "./components/App.tsx";
 
@@ -13,8 +11,9 @@ const { diagnostics, files } = await Deno.emit(
   new URL("main.tsx", import.meta.url),
   {
     bundle: "module",
+    check: false, // 2s gain
     compilerOptions: {
-      lib: ["dom", "dom.iterable", "esnext"],
+      lib: ["dom", "esnext"],
       sourceMap: false,
     },
   },
