@@ -1,4 +1,10 @@
-import { Application, Colors, ReactDOMServer, Router } from "../depBack.ts";
+import {
+  Application,
+  Colors,
+  gzip,
+  ReactDOMServer,
+  Router,
+} from "../depBack.ts";
 import { React } from "../depFront.ts";
 
 import { App } from "./components/App.tsx";
@@ -35,7 +41,7 @@ const router = new Router();
 router
   .get("/", (context) => {
     const app = ReactDOMServer.renderToString(<App />);
-    console.info(Colors.magenta("SSR:"), Colors.cyan(app));
+    console.info(Colors.magenta(" SSR:"), Colors.cyan(app));
 
     context.response.type = "text/html";
     context.response.body = `
@@ -83,6 +89,23 @@ app.use(async (ctx, next) => {
     `${requestId} - ${method} ${url} ${ctx.response.status} (${Date.now() -
       start} ms)`,
   );
+});
+
+// Compress
+app.use(async (ctx, next) => {
+  await next();
+  if (
+    ctx.response.type &&
+    ["application/javascript", "text/html"].includes(ctx.response.type) &&
+    typeof ctx.response.body === "string"
+  ) {
+    console.log(Colors.magenta(` compressing response`));
+    ctx.response.body = gzip(
+      new TextEncoder().encode(ctx.response.body),
+      undefined,
+    );
+    ctx.response.headers.append("Content-Encoding", "gzip");
+  }
 });
 
 // Initial HTTP server log
