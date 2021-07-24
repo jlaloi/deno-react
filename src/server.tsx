@@ -4,7 +4,7 @@ import { React } from "../depFront.ts";
 import { App } from "./components/App.tsx";
 
 /*
- * Hydration script generation
+ * Hydration script generation that will be served as /main.js
  */
 const emitStart = Date.now();
 const { diagnostics, files } = await Deno.emit(
@@ -35,7 +35,7 @@ const router = new Router();
 router
   .get("/", (context) => {
     const app = ReactDOMServer.renderToString(<App />);
-    console.info(Colors.magenta("Quick SSR:"), Colors.cyan(app));
+    console.info(Colors.magenta("SSR:"), Colors.cyan(app));
 
     context.response.type = "text/html";
     context.response.body = `
@@ -75,7 +75,6 @@ app.use(async (ctx, next) => {
   const start = Date.now();
   const requestId = crypto.randomUUID();
   const { method, url } = ctx.request;
-
   console.log(`${requestId} - ${method} ${url}`);
 
   await next();
@@ -87,10 +86,8 @@ app.use(async (ctx, next) => {
 });
 
 // Initial HTTP server log
-app.addEventListener("listen", ({ hostname, port, secure }) => {
-  console.log(
-    `Listening on: ${secure ? "https://" : "http://"}${hostname}:${port}`,
-  );
+app.addEventListener("listen", ({ port }) => {
+  console.log(`Listening on: ${Colors.yellow(`http://localhost:${port}`)}`);
 });
 
 // Configure router
@@ -98,4 +95,4 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 // Start server
-await app.listen({ hostname: "localhost", port: 8097 });
+await app.listen({ port: 8097 });
