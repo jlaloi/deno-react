@@ -39,12 +39,12 @@ console.log(
  */
 const router = new Router();
 router
-  .get("/", (context) => {
+  .get("/", (ctx) => {
     const app = ReactDOMServer.renderToString(<App />);
     console.info(Colors.magenta(" SSR:"), Colors.cyan(app));
 
-    context.response.type = "text/html";
-    context.response.body = `
+    ctx.response.type = "text/html";
+    ctx.response.body = `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -56,9 +56,9 @@ router
         </body>
         </html>`;
   })
-  .get("/main.js", (context) => {
-    context.response.type = "application/javascript";
-    context.response.body = files["deno:///bundle.js"];
+  .get("/main.js", (ctx) => {
+    ctx.response.type = "application/javascript";
+    ctx.response.body = files["deno:///bundle.js"];
   });
 
 /*
@@ -67,27 +67,28 @@ router
 const app = new Application();
 
 // Basic error handler
-app.use(async (_, next) => {
+app.use(async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    console.error(err);
-    throw err;
+    console.error(Colors.red(ctx.state.requestId), "ERROR", err);
+    ctx.response.body = "";
+    ctx.response.status = 500;
   }
 });
 
 // Log
 app.use(async (ctx, next) => {
   const start = Date.now();
-  const requestId = crypto.randomUUID();
+  ctx.state.requestId = crypto.randomUUID();
   const { method, url } = ctx.request;
-  console.log(`${requestId} - ${method} ${url}`);
+  console.log(ctx.state.requestId, `${method} ${url}`);
 
   await next();
 
   console.log(
-    `${requestId} - ${method} ${url} ${ctx.response.status} (${Date.now() -
-      start} ms)`,
+    ctx.state.requestId,
+    `${method} ${url} ${ctx.response.status} (${Date.now() - start} ms)`,
   );
 });
 
