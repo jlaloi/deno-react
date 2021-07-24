@@ -1,5 +1,5 @@
-import { Application, Colors, ReactDOMServer, Router } from "./depBack.ts";
-import { React } from "./depFront.ts";
+import { Application, Colors, ReactDOMServer, Router } from "../depBack.ts";
+import { React } from "../depFront.ts";
 
 import { App } from "./components/App.tsx";
 

@@ -1,4 +1,4 @@
-import { React } from "../depFront.ts";
+import { React } from "../../depFront.ts";
 
 export const Counter = () => {
   const [value, setValue] = React.useState(0);

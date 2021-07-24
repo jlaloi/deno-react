@@ -1,4 +1,4 @@
-import { React, ReactDOM } from "./depFront.ts";
+import { React, ReactDOM } from "../depFront.ts";
 
 import { App } from "./components/App.tsx";
 
