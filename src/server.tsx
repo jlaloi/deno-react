@@ -15,8 +15,6 @@ const { diagnostics, files } = await Deno.emit(
   },
 );
 
-const data: string[] = [];
-
 const router = new Router();
 router
   .get("/", (context) => {
@@ -40,13 +38,6 @@ router
   .get("/main.js", (context) => {
     context.response.type = "application/javascript";
     context.response.body = files["deno:///bundle.js"];
-  })
-  .get("/api", ({ response }) => (response.body = { data }))
-  .post("/api", async ({ request, response }) => {
-    const body = request.body({ type: "json" });
-    const value = await body.value;
-    data.push(value.newData);
-    response.body = { data };
   });
 
 const app = new Application();
