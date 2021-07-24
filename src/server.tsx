@@ -1,9 +1,14 @@
 import { Application, Router } from "https://deno.land/x/oak@v8.0.0/mod.ts";
+import * as Colors from "https://deno.land/std@0.102.0/fmt/colors.ts";
 
 import { React, ReactDOMServer } from "./dep.ts";
 
 import { App } from "./components/App.tsx";
 
+/*
+ * Hydration script generation
+ */
+const emitStart = Date.now();
 const { diagnostics, files } = await Deno.emit(
   new URL("main.tsx", import.meta.url),
   {
@@ -14,13 +19,25 @@ const { diagnostics, files } = await Deno.emit(
     },
   },
 );
+console.log(
+  Colors.magenta(
+    `Emitted Hydration script files (${
+      Colors.red(`${Date.now() - emitStart} ms`)
+    }):`,
+  ),
+  Object.keys(files),
+  diagnostics,
+);
 
+/*
+ * Basic Router
+ */
 const router = new Router();
 router
   .get("/", (context) => {
-    const app = ReactDOMServer.renderToString(
-      <App />,
-    );
+    const app = ReactDOMServer.renderToString(<App />);
+    console.info(Colors.magenta("Quick SSR:"), Colors.cyan(app));
+
     context.response.type = "text/html";
     context.response.body = `
         <!DOCTYPE html>
@@ -40,6 +57,9 @@ router
     context.response.body = files["deno:///bundle.js"];
   });
 
+/*
+ * Server
+ */
 const app = new Application();
 
 // Basic error handler
@@ -79,4 +99,5 @@ app.addEventListener("listen", ({ hostname, port, secure }) => {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
+// Start server
 await app.listen({ hostname: "localhost", port: 8097 });
