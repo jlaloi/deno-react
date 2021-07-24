@@ -15,7 +15,7 @@ const { diagnostics, files } = await Deno.emit(
     bundle: "module",
     compilerOptions: {
       lib: ["dom", "dom.iterable", "esnext"],
-      target: "es2015",
+      sourceMap: false,
     },
   },
 );
