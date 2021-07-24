@@ -1,1 +1,3 @@
-> deno run --allow-net --allow-read --unstable --watch .\src\server.tsx
+```
+deno run --allow-net --allow-read --config=tsconfig.json --unstable --watch .\src\server.tsx
+```
