@@ -97,11 +97,7 @@ app.use(async (ctx, next) => {
 // Compress
 app.use(async (ctx, next) => {
   await next();
-  if (
-    ctx.response.type &&
-    ["application/javascript", "text/html"].includes(ctx.response.type) &&
-    typeof ctx.response.body === "string"
-  ) {
+  if (typeof ctx.response.body === "string") {
     console.log(Colors.magenta(` compressing response`));
     ctx.response.body = gzip(
       new TextEncoder().encode(ctx.response.body),
