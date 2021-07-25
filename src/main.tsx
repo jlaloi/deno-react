@@ -1,6 +1,7 @@
-import { React, ReactDOM } from "../depFront.ts";
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { App } from "./components/App.tsx";
+import { App } from "/components/App.tsx";
 
 ReactDOM.hydrate(
   <App />,

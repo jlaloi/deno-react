@@ -1,13 +1,10 @@
-import {
-  Application,
-  Colors,
-  gzip,
-  ReactDOMServer,
-  Router,
-} from "../depBack.ts";
-import { React } from "../depFront.ts";
+import { Application, Router } from "oak";
+import { gzip } from "deno-flate";
+import * as Colors from "colors";
+import React from "react";
+import ReactDOMServer from "react-dom-server";
 
-import { App } from "./components/App.tsx";
+import { App } from "/components/App.tsx";
 
 /*
  * Hydration script generation that will be served as /main.js
@@ -22,6 +19,7 @@ const { diagnostics, files } = await Deno.emit(
       lib: ["dom", "esnext"],
       sourceMap: false,
     },
+    importMapPath: "./importMap.json",
   },
 );
 console.log(

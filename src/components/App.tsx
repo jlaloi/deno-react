@@ -1,6 +1,6 @@
-import { React } from "../../depFront.ts";
+import React from "react";
 
-import { Counter } from "./Counter.tsx";
+import { Counter } from "/components/Counter.tsx";
 
 export const App = () => (
   <>
