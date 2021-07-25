@@ -32,6 +32,7 @@ console.log(
   ),
   Object.keys(files),
   diagnostics,
+  Math.round(files[Object.keys(files)[0]].length / 1024),
 );
 
 /*
