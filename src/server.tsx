@@ -44,16 +44,19 @@ router
 
     ctx.response.type = "text/html";
     ctx.response.body = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <script type="module" src="/main.js"></script>
-        </head>
-        <body>
-            <div id="app">${app}</div>
-        </body>
-        </html>`;
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Deno React</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <script type="module" src="/main.js"></script>
+      </head>
+      <body>
+          <div id="app">${app}</div>
+      </body>
+      </html>`;
   })
   .get("/main.js", (ctx) => {
     ctx.response.type = "application/javascript";
