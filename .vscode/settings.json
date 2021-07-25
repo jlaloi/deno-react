@@ -17,6 +17,7 @@
   },
   "deno.suggest.imports.hosts": {
     "https://jspm.dev": true,
-    "https://deno.land": true
+    "https://deno.land": true,
+    "https://esm.sh": true
   }
 }
