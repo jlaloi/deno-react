@@ -54,7 +54,7 @@ router
         <script type="module" src="/main.js"></script>
       </head>
       <body>
-          <div id="app">${app}</div>
+        <div id="app">${app}</div>
       </body>
       </html>`;
   })
