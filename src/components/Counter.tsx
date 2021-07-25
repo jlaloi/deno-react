@@ -1,14 +1,14 @@
 import { React } from "../../depFront.ts";
 
 export const Counter = () => {
-  const [value, setValue] = React.useState(0);
+  const [count, setCount] = React.useState(0);
   const increment = React.useCallback(() => {
-    setValue(value + 1);
-  }, [value]);
+    setCount(count + 1);
+  }, [count]);
 
   return (
     <div>
-      Counter: {value}
+      Counter: {count}
       <button onClick={increment}>Increment</button>
     </div>
   );
