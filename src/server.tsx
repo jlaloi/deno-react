@@ -1,10 +1,10 @@
 import { Application, Router } from "oak";
-import { gzip } from "deno-flate";
+// import { gzip } from "deno-flate";
 import * as Colors from "colors";
 import React from "react";
 import ReactDOMServer from "react-dom-server";
 
-import { App } from "/components/App.tsx";
+import { App } from "#/components/App.tsx";
 
 /*
  * Hydration script generation that will be served as /main.js
@@ -94,18 +94,18 @@ app.use(async (ctx, next) => {
   );
 });
 
-// Compress
-app.use(async (ctx, next) => {
-  await next();
-  if (typeof ctx.response.body === "string") {
-    console.log(Colors.magenta(` compressing response`));
-    ctx.response.body = gzip(
-      new TextEncoder().encode(ctx.response.body),
-      undefined,
-    );
-    ctx.response.headers.append("Content-Encoding", "gzip");
-  }
-});
+// // Compress
+// app.use(async (ctx, next) => {
+//   await next();
+//   if (typeof ctx.response.body === "string") {
+//     console.log(Colors.magenta(` compressing response`));
+//     ctx.response.body = gzip(
+//       new TextEncoder().encode(ctx.response.body),
+//       undefined,
+//     );
+//     ctx.response.headers.append("Content-Encoding", "gzip");
+//   }
+// });
 
 // Initial HTTP server log
 app.addEventListener("listen", ({ port }) => {
